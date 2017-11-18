@@ -1,6 +1,0 @@
-target/
-resources/js/wakame/observer/util/SampleUtil/certificate.pem.crt.txt
-resources/js/wakame/observer/util/SampleUtil/private.pem.key
-resources/js/wakame/observer/util/SampleUtil/samples.properties
-.settings/
-.project
