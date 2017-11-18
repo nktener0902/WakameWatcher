@@ -22,9 +22,7 @@ import jp.wakame.watcher.util.SampleUtil;
 import jp.wakame.watcher.util.SampleUtil.KeyStorePasswordPair;
 
 public class Main {
-	public static String PHOTODIR = "/home/y-nakata/dev/wakame_system/photos/"; // 末尾に/(スラッシュ)を忘れないこと
 
-    private static final String TestTopic = "sdk/test/java";
     private static final AWSIotQos TestTopicQos = AWSIotQos.QOS0;
 	private static AWSIotMqttClient awsIotClient;
 	private static String[] CommandArgs;
