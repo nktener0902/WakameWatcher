@@ -7,7 +7,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>photo</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -70,4 +69,5 @@
 			<version>1.1.1</version>
 		</dependency>
 	</dependencies>
+	<name>raspberry</name>
 </project>
