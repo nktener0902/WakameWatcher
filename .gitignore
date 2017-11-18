@@ -1,6 +1,6 @@
 raspberry/target/
-raspberry/resources/js/wakame/observer/util/SampleUtil/certificate.pem.crt.txt
-raspberry/resources/js/wakame/observer/util/SampleUtil/private.pem.key
-raspberry/resources/js/wakame/observer/util/SampleUtil/samples.properties
+raspberry/src/main/resources/jp/wakame/watcher/util/SampleUtil/certificate.pem.crt.txt
+raspberry/src/main/resources/jp/wakame/watcher/util/SampleUtil/private.pem.key
+raspberry/src/main/resources/jp/wakame/watcher/util/SampleUtil/samples.properties
 raspberry/.settings/
 raspberry/.project
