@@ -1,35 +1,53 @@
-package jp.wakame.observer.raspberry;
+package jp.wakame.watcher.raspberry;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.inject.Inject;
+
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.unbound.UnboundLiteral;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 
 public class Main {
 	public static String PHOTODIR = "/home/y-nakata/dev/wakame_system/photos/"; // 末尾に/(スラッシュ)を忘れないこと
 
 	public static void main(String[] args) throws InterruptedException, MqttException {
 
-		String topic = "wakame";
-		String content = "Message from MqttPublishSample";
-		int qos = 2;
-		String broker = "tcp://iot.eclipse.org:1883";
-		String clientId = "JavaSample";
-		MemoryPersistence persistence = new MemoryPersistence();
+		Weld weld = new Weld();
+		try (WeldContainer container = weld.initialize()) {
+			RequestContext requestContext = container.select(RequestContext.class, UnboundLiteral.INSTANCE).get();
+			requestContext.activate();
+			Main bean = container.select(Main.class).get();
+			bean.run();
+		}
+	}
 
+	@Inject
+	WebCamera webcam;
 
-		MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-		MqttConnectOptions connOpts = new MqttConnectOptions();
-		connOpts.setCleanSession(true);
-		System.out.println("Connecting to broker: " + broker);
-		sampleClient.connect(connOpts);
-		System.out.println("Connected");
-		System.out.println("Publishing message: " + content);
+	@Inject
+	MqttBean mqtt;
 
+	@Inject
+	transient Logger log;
 
-		/** 画像クラス **/
-		WebCamera webcam = new WebCamera(PHOTODIR);
+	public void run() throws InterruptedException {
+
+		/** ロガー設定 **/
+		try {
+			Handler handler = new FileHandler("my.log", 500000, 2);
+			log.addHandler(handler);
+		} catch (SecurityException | IOException e) {
+			e.printStackTrace();
+		}
+		this.log.setLevel(Level.INFO);
 
 		while (true) {
 			/** 画像取得 **/
@@ -39,14 +57,16 @@ public class Main {
 
 			/** MQTTでデータ送信 **/
 			/** 画像を送信 **/
+			/** AWS SDKを利用 **/
 			MqttMessage message = new MqttMessage(content.getBytes());
 			message.setQos(qos);
 			sampleClient.publish(topic, message);
-			System.out.println("Message published");
+			this.log.info("Message published");
 
 			/** 15分スリープ **/
 			// Thread.sleep(15 * 60 * 1000);
 			Thread.sleep(15 * 1000);
 		}
+
 	}
 }

@@ -1,4 +1,4 @@
-package jp.wakame.observer.raspberry;
+package jp.wakame.watcher.raspberry;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,6 @@ public class WebCamera {
 		/** ファイル数が100より多い場合、最も古い写真を削除 **/
 		if (fileAmount > 100) {
 			try {
-				//Process process = new ProcessBuilder("rm", photoDir + files[files.length - 1]).start();
 				Process process = new ProcessBuilder("rm", photoDir + files[0]).start();
 			} catch (IOException e) {
 				e.printStackTrace();
