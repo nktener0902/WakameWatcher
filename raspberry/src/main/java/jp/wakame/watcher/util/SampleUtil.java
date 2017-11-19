@@ -40,7 +40,7 @@ import java.util.Properties;
  * certificate from the resource files.
  */
 public class SampleUtil {
-    private static final String PropertyFile = "aws-iot-sdk-samples.properties";
+    private static final String PropertyFile = "samples.properties";
 
     public static class KeyStorePasswordPair {
         public KeyStore keyStore;
