@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
@@ -24,22 +22,11 @@ public class AWSIoTSender implements ISender, Serializable{
 	@Inject
 	transient Logger log;
 
-	String topic = "wakame";
-	String content = "Message from MqttPublishSample";
-	int qos = 2;
-	String broker = "tcp://iot.eclipse.org:1883";
-	String clientId = "JavaSample";
-	MemoryPersistence persistence = new MemoryPersistence();
-
-	void setTopic(String topic){
-		this.topic = topic;
-	}
-
 	@Override
 	public void init(String[] CommandArgs){
 		CommandArguments arguments = CommandArguments.parse(CommandArgs);
         initClient(arguments);
-        log.info("Initialized MQTT client");
+        log.info("Initialized AWS IoT client");
 
         /** AWS IoTを接続 **/
         try {
