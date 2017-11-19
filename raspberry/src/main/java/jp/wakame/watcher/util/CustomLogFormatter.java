@@ -36,7 +36,7 @@ public class CustomLogFormatter extends SimpleFormatter {
          stringBuffer.append(Integer.toString(logRecord.getLevel().intValue()));
          stringBuffer.append(" ");
       }
-      stringBuffer.append(" ");
+      stringBuffer.append(" - ");
       stringBuffer.append(logRecord.getLoggerName());
       stringBuffer.append(" - ");
       stringBuffer.append(logRecord.getMessage());

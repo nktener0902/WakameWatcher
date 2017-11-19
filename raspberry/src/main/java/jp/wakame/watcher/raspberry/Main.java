@@ -74,7 +74,7 @@ public class Main {
 				webcam.takePhoto();
 			} catch (IOException e) {
 				log.severe("Failed getting a photo from Rasperry Pi");
-				Thread.sleep(60 * 1000);
+				Thread.sleep(5 * 1000);
 				continue;
 			}
 
