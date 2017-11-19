@@ -1,13 +1,16 @@
 package jp.wakame.watcher.util;
 
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
-public class CustomLogFormatter extends SimpleFormatter {
+@Formatter
+@javax.enterprise.context.RequestScoped
+public class CustomLogFormatter extends SimpleFormatter implements Serializable {
    private final SimpleDateFormat dateFormat =
          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 

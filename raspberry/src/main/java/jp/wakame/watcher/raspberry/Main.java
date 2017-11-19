@@ -5,6 +5,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import com.amazonaws.services.iot.client.AWSIotQos;
 
 import jp.wakame.watcher.util.CommandArguments;
 import jp.wakame.watcher.util.CustomLogFormatter;
+import jp.wakame.watcher.util.Formatter;
 import jp.wakame.watcher.util.SampleUtil;
 import jp.wakame.watcher.util.SampleUtil.KeyStorePasswordPair;
 
@@ -50,17 +52,21 @@ public class Main {
 	@Inject
 	transient Logger log;
 
+	@Inject @Formatter
+	private SimpleFormatter customFormatter;
+
 	public void run() throws InterruptedException, AWSIotException {
 
 		/** ロガー設定 **/
 		try {
 			/* ファイル出力 */
 			Handler fileOutHandler = new FileHandler("log/log.xml", 5000000, 2);
-			fileOutHandler.setFormatter(new CustomLogFormatter());
+			fileOutHandler.setFormatter(customFormatter);
 			fileOutHandler.setLevel(Level.ALL);
 			log.addHandler(fileOutHandler);
 			/* 標準出力 */
 			Handler consoleOutHandler = new StreamHandler();
+			consoleOutHandler.setFormatter(new CustomLogFormatter());
 			log.addHandler(consoleOutHandler);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
