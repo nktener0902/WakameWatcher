@@ -19,6 +19,7 @@ import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
 
+import jp.wakame.watcher.mqtt.MqttBean;
 import jp.wakame.watcher.util.CommandArguments;
 import jp.wakame.watcher.util.CustomLogFormatter;
 import jp.wakame.watcher.util.Formatter;

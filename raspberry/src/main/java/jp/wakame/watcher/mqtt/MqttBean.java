@@ -1,4 +1,4 @@
-package jp.wakame.watcher.raspberry;
+package jp.wakame.watcher.mqtt;
 
 import java.io.IOException;
 import java.io.Serializable;

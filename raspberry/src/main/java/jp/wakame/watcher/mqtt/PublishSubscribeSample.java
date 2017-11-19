@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package jp.wakame.watcher.raspberry;
+package jp.wakame.watcher.mqtt;
 
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotException;
