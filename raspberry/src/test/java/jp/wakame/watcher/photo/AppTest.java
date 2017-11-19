@@ -1,4 +1,4 @@
-package jp.wakame.observer.photo;
+package jp.wakame.watcher.photo;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

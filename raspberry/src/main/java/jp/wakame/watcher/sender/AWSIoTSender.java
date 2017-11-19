@@ -1,18 +1,29 @@
-package jp.wakame.watcher.mqtt;
+package jp.wakame.watcher.sender;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-@SessionScoped
-public class MqttBean implements Serializable{
+import com.amazonaws.services.iot.client.AWSIotException;
+import com.amazonaws.services.iot.client.AWSIotMqttClient;
+import com.amazonaws.services.iot.client.AWSIotQos;
+import com.amazonaws.services.iot.client.sample.sampleUtil.SampleUtil;
+
+import jp.wakame.watcher.util.CommandArguments;
+import jp.wakame.watcher.util.CustomUtil;
+import jp.wakame.watcher.util.CustomUtil.KeyStorePasswordPair;
+
+public class AWSIoTSender implements ISender, Serializable{
+
+	private static final AWSIotQos TestTopicQos = AWSIotQos.QOS0;
+	private static AWSIotMqttClient awsIotClient;
+
+	@Inject
+	transient Logger log;
+
 	String topic = "wakame";
 	String content = "Message from MqttPublishSample";
 	int qos = 2;
@@ -24,17 +35,50 @@ public class MqttBean implements Serializable{
 		this.topic = topic;
 	}
 
-	@Inject
-	Logger log;
+	@Override
+	public void init(String[] CommandArgs){
+		CommandArguments arguments = CommandArguments.parse(CommandArgs);
+        initClient(arguments);
+        log.info("Initialized MQTT client");
 
-	public MqttBean() throws MqttException{
+        /** AWS IoTを接続 **/
+        try {
+        	awsIotClient.connect();
+        	log.info("Success connecting to your Thing of AWS IoT");
+        } catch (AWSIotException e){
+        	log.severe("Failedd connecting to your Thing of AWS IoT");
+        	log.severe(e.getMessage());
+        	return;
+        }
+	}
 
-		MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-		MqttConnectOptions connOpts = new MqttConnectOptions();
-		connOpts.setCleanSession(true);
-		this.log.info("Connecting to broker: " + broker);
-		sampleClient.connect(connOpts);
-		this.log.info("Connected");
-		this.log.info("Publishing message: " + content);
+	private void initClient(CommandArguments arguments) {
+		String clientEndpoint = arguments.getNotNull("clientEndpoint", CustomUtil.getConfig("clientEndpoint"));
+		String clientId = arguments.getNotNull("clientId", CustomUtil.getConfig("clientId"));
+
+		String certificateFile = arguments.get("certificateFile", CustomUtil.getConfig("certificateFile"));
+		String privateKeyFile = arguments.get("privateKeyFile", CustomUtil.getConfig("privateKeyFile"));
+		if (awsIotClient == null && certificateFile != null && privateKeyFile != null) {
+			String algorithm = arguments.get("keyAlgorithm", CustomUtil.getConfig("keyAlgorithm"));
+
+			KeyStorePasswordPair pair = CustomUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile, algorithm);
+
+			awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
+		}
+
+		if (awsIotClient == null) {
+			String awsAccessKeyId = arguments.get("awsAccessKeyId", CustomUtil.getConfig("awsAccessKeyId"));
+			String awsSecretAccessKey = arguments.get("awsSecretAccessKey", SampleUtil.getConfig("awsSecretAccessKey"));
+			String sessionToken = arguments.get("sessionToken", CustomUtil.getConfig("sessionToken"));
+
+			if (awsAccessKeyId != null && awsSecretAccessKey != null) {
+				awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey,
+						sessionToken);
+			}
+		}
+
+		if (awsIotClient == null) {
+			throw new IllegalArgumentException("Failed to construct client due to missing certificate or credentials.");
+		}
 	}
 }

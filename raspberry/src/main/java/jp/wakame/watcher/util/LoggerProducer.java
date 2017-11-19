@@ -21,7 +21,7 @@ public class LoggerProducer {
 
 	@Inject
 	@Formatter
-	private SimpleFormatter customFormatter;
+	SimpleFormatter customFormatter;
 
 	@Produces
 	private Logger createLogger() {

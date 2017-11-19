@@ -39,7 +39,7 @@ import java.util.Properties;
  * This is a helper class to facilitate reading of the configurations and
  * certificate from the resource files.
  */
-public class SampleUtil {
+public class CustomUtil {
     private static final String PropertyFile = "samples.properties";
 
     public static class KeyStorePasswordPair {
@@ -54,7 +54,7 @@ public class SampleUtil {
 
     public static String getConfig(String name) {
         Properties prop = new Properties();
-        URL resource = SampleUtil.class.getResource(PropertyFile);
+        URL resource = CustomUtil.class.getResource(PropertyFile);
         if (resource == null) {
             return null;
         }
@@ -81,7 +81,7 @@ public class SampleUtil {
             System.out.println("Certificate or private key file missing");
             return null;
         }
-        System.out.println("Cert file:" +certificateFile + " Private key: "+ privateKeyFile);
+        System.out.println("Cert file:" +certificateFile + "\nPrivate key: "+ privateKeyFile);
 
         final PrivateKey privateKey = loadPrivateKeyFromFile(privateKeyFile, keyAlgorithm);
 
