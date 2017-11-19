@@ -4,3 +4,4 @@ raspberry/src/main/resources/jp/wakame/watcher/util/SampleUtil/private.pem.key
 raspberry/src/main/resources/jp/wakame/watcher/util/SampleUtil/samples.properties
 raspberry/.settings/
 raspberry/.project
+raspberry/log/log*
