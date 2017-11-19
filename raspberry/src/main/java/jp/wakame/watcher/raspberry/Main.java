@@ -76,8 +76,13 @@ public class Main {
 			}
 
 			/** 画像ディレクトリ数を100以下にする **/
-			if (webcam.oldPhotoRemove()){
-				log.info("Removed old photos");
+			try {
+				if (webcam.oldPhotoRemove()){
+					log.info("Removed old photos");
+				}
+			} catch (IOException e1) {
+				log.severe("Cannot delete photo");
+				e1.printStackTrace();
 			}
 
 			/** MQTTでデータ送信 **/
