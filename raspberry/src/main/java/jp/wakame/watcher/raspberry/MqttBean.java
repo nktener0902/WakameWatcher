@@ -1,6 +1,7 @@
 package jp.wakame.watcher.raspberry;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -15,7 +16,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 @SessionScoped
-public class MqttBean {
+public class MqttBean implements Serializable{
 	String topic = "wakame";
 	String content = "Message from MqttPublishSample";
 	int qos = 2;
