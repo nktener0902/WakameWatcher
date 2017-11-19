@@ -1,10 +1,6 @@
 package jp.wakame.watcher.mqtt;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
@@ -32,13 +28,6 @@ public class MqttBean implements Serializable{
 	Logger log;
 
 	public MqttBean() throws MqttException{
-		try {
-			Handler handler = new FileHandler("my.log", 500000, 2);
-			log.addHandler(handler);
-		} catch (SecurityException | IOException e) {
-			e.printStackTrace();
-		}
-		this.log.setLevel(Level.INFO);
 
 		MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
 		MqttConnectOptions connOpts = new MqttConnectOptions();
