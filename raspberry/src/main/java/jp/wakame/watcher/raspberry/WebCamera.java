@@ -11,7 +11,7 @@ public class WebCamera {
 
 	private String photoDir;
 
-	public void setPhotoDirPath(String dir){
+	public void setPhotoDirPath(String dir) {
 		photoDir = dir;
 	}
 
@@ -24,11 +24,10 @@ public class WebCamera {
 		String filename = photoDir + currentData + ".jpg";
 
 		/** 写真を撮る **/
-		Process process = new ProcessBuilder("fswebcam", "--no-banner", "-r", "1920x1080", "-D", "5", filename)
-				.start();
+		Process process = new ProcessBuilder("fswebcam", "--no-banner", "-r", "1920x1080", "-D", "5", filename).start();
 	}
 
-	public boolean oldPhotoRemove() {
+	public boolean oldPhotoRemove() throws IOException {
 		/** ディレクトリ内の画像数を取得 **/
 		File dir = new File(photoDir);
 		File[] files = dir.listFiles();
@@ -38,11 +37,7 @@ public class WebCamera {
 		/** ファイル数が100より多い場合、最も古い写真を削除 **/
 		if (fileAmount > 100) {
 			removed = true;
-			try {
-				Process process = new ProcessBuilder("rm", photoDir + files[0]).start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Process process = new ProcessBuilder("rm", photoDir + files[0]).start();
 		}
 		return removed;
 	}
