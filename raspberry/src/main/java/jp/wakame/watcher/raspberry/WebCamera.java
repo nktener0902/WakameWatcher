@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class WebCamera {
 
 	private String photoDir;
 
-	public WebCamera(String dir) {
+	public void setPhotoDirPath(String dir){
 		photoDir = dir;
 	}
 
@@ -29,19 +32,22 @@ public class WebCamera {
 		}
 	}
 
-	public void oldPhotoRemove() {
+	public boolean oldPhotoRemove() {
 		/** ディレクトリ内の画像数を取得 **/
 		File dir = new File(photoDir);
 		File[] files = dir.listFiles();
 		int fileAmount = files.length;
+		boolean removed = false;
 
 		/** ファイル数が100より多い場合、最も古い写真を削除 **/
 		if (fileAmount > 100) {
+			removed = true;
 			try {
 				Process process = new ProcessBuilder("rm", photoDir + files[0]).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		return removed;
 	}
 }
