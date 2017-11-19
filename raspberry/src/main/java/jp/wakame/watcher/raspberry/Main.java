@@ -19,6 +19,7 @@ import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
 
 import jp.wakame.watcher.util.CommandArguments;
+import jp.wakame.watcher.util.CustomLogFormatter;
 import jp.wakame.watcher.util.SampleUtil;
 import jp.wakame.watcher.util.SampleUtil.KeyStorePasswordPair;
 
@@ -55,6 +56,8 @@ public class Main {
 		try {
 			/* ファイル出力 */
 			Handler fileOutHandler = new FileHandler("log/log.xml", 5000000, 2);
+			fileOutHandler.setFormatter(new CustomLogFormatter());
+			fileOutHandler.setLevel(Level.ALL);
 			log.addHandler(fileOutHandler);
 			/* 標準出力 */
 			Handler consoleOutHandler = new StreamHandler();
