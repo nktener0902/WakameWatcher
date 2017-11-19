@@ -5,6 +5,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,7 @@ import jp.wakame.watcher.util.SampleUtil.KeyStorePasswordPair;
 
 public class Main {
 
-    private static final AWSIotQos TestTopicQos = AWSIotQos.QOS0;
+	private static final AWSIotQos TestTopicQos = AWSIotQos.QOS0;
 	private static AWSIotMqttClient awsIotClient;
 	private static String[] CommandArgs;
 
@@ -52,8 +53,12 @@ public class Main {
 
 		/** ロガー設定 **/
 		try {
-			Handler handler = new FileHandler("my.log", 500000, 2);
-			log.addHandler(handler);
+			/* ファイル出力 */
+			Handler fileOutHandler = new FileHandler("log/log.xml", 5000000, 2);
+			log.addHandler(fileOutHandler);
+			/* 標準出力 */
+			Handler consoleOutHandler = new StreamHandler();
+			log.addHandler(consoleOutHandler);
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -61,9 +66,19 @@ public class Main {
 
 		while (true) {
 			/** 画像取得 **/
-			webcam.takePhoto();
+			log.info("Take photo");
+			try {
+				webcam.takePhoto();
+			} catch (IOException e) {
+				log.severe("Failed getting a photo from Rasperry Pi");
+				Thread.sleep(60 * 1000);
+				continue;
+			}
+
 			/** 画像ディレクトリ数を100以下にする **/
-			webcam.oldPhotoRemove();
+			if (webcam.oldPhotoRemove()){
+				log.info("Removed old photos");
+			}
 
 			/** MQTTでデータ送信 **/
 			/** 画像を送信 **/
@@ -71,8 +86,18 @@ public class Main {
 
 			CommandArguments arguments = CommandArguments.parse(CommandArgs);
 	        initClient(arguments);
+	        log.info("Initialized MQTT client");
 
-	        awsIotClient.connect();
+	        /** AWS IoTを接続 **/
+	        try {
+	        	awsIotClient.connect();
+	        	log.info("Success connecting to your Thing of AWS IoT");
+	        } catch (AWSIotException e){
+	        	log.severe("Failedd connecting to your Thing of AWS IoT");
+	        	log.severe(e.getMessage());
+	        	return;
+	        }
+
 
 			/** 1分スリープ **/
 			Thread.sleep(60 * 1000);
@@ -80,33 +105,33 @@ public class Main {
 
 	}
 
-    private static void initClient(CommandArguments arguments) {
-        String clientEndpoint = arguments.getNotNull("clientEndpoint", SampleUtil.getConfig("clientEndpoint"));
-        String clientId = arguments.getNotNull("clientId", SampleUtil.getConfig("clientId"));
+	private static void initClient(CommandArguments arguments) {
+		String clientEndpoint = arguments.getNotNull("clientEndpoint", SampleUtil.getConfig("clientEndpoint"));
+		String clientId = arguments.getNotNull("clientId", SampleUtil.getConfig("clientId"));
 
-        String certificateFile = arguments.get("certificateFile", SampleUtil.getConfig("certificateFile"));
-        String privateKeyFile = arguments.get("privateKeyFile", SampleUtil.getConfig("privateKeyFile"));
-        if (awsIotClient == null && certificateFile != null && privateKeyFile != null) {
-            String algorithm = arguments.get("keyAlgorithm", SampleUtil.getConfig("keyAlgorithm"));
+		String certificateFile = arguments.get("certificateFile", SampleUtil.getConfig("certificateFile"));
+		String privateKeyFile = arguments.get("privateKeyFile", SampleUtil.getConfig("privateKeyFile"));
+		if (awsIotClient == null && certificateFile != null && privateKeyFile != null) {
+			String algorithm = arguments.get("keyAlgorithm", SampleUtil.getConfig("keyAlgorithm"));
 
-            KeyStorePasswordPair pair = SampleUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile, algorithm);
+			KeyStorePasswordPair pair = SampleUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile, algorithm);
 
-            awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
-        }
+			awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
+		}
 
-        if (awsIotClient == null) {
-            String awsAccessKeyId = arguments.get("awsAccessKeyId", SampleUtil.getConfig("awsAccessKeyId"));
-            String awsSecretAccessKey = arguments.get("awsSecretAccessKey", SampleUtil.getConfig("awsSecretAccessKey"));
-            String sessionToken = arguments.get("sessionToken", SampleUtil.getConfig("sessionToken"));
+		if (awsIotClient == null) {
+			String awsAccessKeyId = arguments.get("awsAccessKeyId", SampleUtil.getConfig("awsAccessKeyId"));
+			String awsSecretAccessKey = arguments.get("awsSecretAccessKey", SampleUtil.getConfig("awsSecretAccessKey"));
+			String sessionToken = arguments.get("sessionToken", SampleUtil.getConfig("sessionToken"));
 
-            if (awsAccessKeyId != null && awsSecretAccessKey != null) {
-                awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey,
-                        sessionToken);
-            }
-        }
+			if (awsAccessKeyId != null && awsSecretAccessKey != null) {
+				awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey,
+						sessionToken);
+			}
+		}
 
-        if (awsIotClient == null) {
-            throw new IllegalArgumentException("Failed to construct client due to missing certificate or credentials.");
-        }
-    }
+		if (awsIotClient == null) {
+			throw new IllegalArgumentException("Failed to construct client due to missing certificate or credentials.");
+		}
+	}
 }
