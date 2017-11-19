@@ -15,7 +15,7 @@ public class WebCamera {
 		photoDir = dir;
 	}
 
-	public void takePhoto() {
+	public void takePhoto() throws IOException {
 		/** 現在時刻を取得 **/
 		Date date = new Date();
 		String currentData = date.toString();
@@ -24,12 +24,8 @@ public class WebCamera {
 		String filename = photoDir + currentData + ".jpg";
 
 		/** 写真を撮る **/
-		try {
-			Process process = new ProcessBuilder("fswebcam", "--no-banner", "-r", "1920x1080", "-D", "5", filename)
-					.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Process process = new ProcessBuilder("fswebcam", "--no-banner", "-r", "1920x1080", "-D", "5", filename)
+				.start();
 	}
 
 	public boolean oldPhotoRemove() {
