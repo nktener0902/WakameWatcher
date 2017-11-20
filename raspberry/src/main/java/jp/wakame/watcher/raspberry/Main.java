@@ -47,8 +47,8 @@ public class Main {
 				webcam.takePhoto();
 			} catch (IOException e) {
 				log.severe("Failed to get a photo from Rasperry Pi");
-				Thread.sleep(5 * 60 * 1000);
-				continue;
+				//Thread.sleep(5 * 60 * 1000);
+				//continue;
 			}
 
 			/** 画像ディレクトリ数を100以下にする **/
@@ -56,15 +56,16 @@ public class Main {
 				if (webcam.oldPhotoRemove()){
 					log.info("Removed old photos");
 				}
-			} catch (IOException e1) {
+			} catch (IOException | NullPointerException e1) {
 				log.severe("Cannot delete photo");
 				e1.printStackTrace();
 			}
 
 			/** TODO MQTTでデータ送信 **/
+			mqtt.send();
 
 			/** 1分スリープ **/
-			Thread.sleep(60 * 1000);
+			Thread.sleep(5 * 1000);
 		}
 	}
 }

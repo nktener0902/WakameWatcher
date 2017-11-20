@@ -1,6 +1,8 @@
 package jp.wakame.watcher.sender;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -16,8 +18,9 @@ import jp.wakame.watcher.util.CustomUtil.KeyStorePasswordPair;
 
 public class AWSIoTSender implements ISender, Serializable{
 
-	private static final AWSIotQos TestTopicQos = AWSIotQos.QOS0;
-	private static AWSIotMqttClient awsIotClient;
+	private AWSIotMqttClient awsIotClient;
+	private String topicName;
+	private AWSIotQos qos = AWSIotQos.QOS0;
 
 	@Inject
 	transient Logger log;
@@ -40,6 +43,8 @@ public class AWSIoTSender implements ISender, Serializable{
 	}
 
 	private void initClient(CommandArguments arguments) {
+		this.topicName = arguments.get("topicName", CustomUtil.getConfig("topicName"));
+
 		String clientEndpoint = arguments.getNotNull("clientEndpoint", CustomUtil.getConfig("clientEndpoint"));
 		String clientId = arguments.getNotNull("clientId", CustomUtil.getConfig("clientId"));
 
@@ -68,4 +73,23 @@ public class AWSIoTSender implements ISender, Serializable{
 			throw new IllegalArgumentException("Failed to construct client due to missing certificate or credentials.");
 		}
 	}
+
+	@Override
+	public void send() {
+		Date d = new Date();
+		SimpleDateFormat d1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		String payload = d1.format(d);
+		long timeout = 3000;                    // milliseconds
+
+		Message message = new Message(topicName, qos, payload);
+		try {
+			awsIotClient.publish(message, timeout);
+			log.info("Sent message to AWS IoT");
+		} catch (AWSIotException e) {
+			log.severe("Cannot publish msg :" + payload);
+			e.printStackTrace();
+		}
+	}
+
+
 }
