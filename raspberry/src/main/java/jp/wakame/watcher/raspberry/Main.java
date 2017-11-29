@@ -14,15 +14,19 @@ import jp.wakame.watcher.sender.ISender;
 
 public class Main {
 
-	private static String[] CommandArgs;
+	public static void main(String[] args) {
 
-	public static void main(String[] args) throws InterruptedException, AWSIotException {
-
-		CommandArgs = args;
+		String[] CommandArgs = args;
 		Weld weld = new Weld();
 		try (WeldContainer container = weld.initialize()) {
 			Main bean = container.select(Main.class).get();
-			bean.run();
+			try {
+				bean.run(CommandArgs);
+			} catch (AWSIotException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -35,7 +39,7 @@ public class Main {
 	@Inject
 	transient Logger log;
 
-	public void run() throws InterruptedException, AWSIotException {
+	public void run(String[] CommandArgs) throws InterruptedException, AWSIotException {
 
 		/** AWS IoTへのコネクションを初期化 **/
 		mqtt.init(CommandArgs);
@@ -46,9 +50,9 @@ public class Main {
 			try {
 				webcam.takePhoto();
 			} catch (IOException e) {
-				log.severe("Failed to get a photo from Rasperry Pi");
-				//Thread.sleep(5 * 60 * 1000);
-				//continue;
+				log.severe("Failed to get a photo from Rasperry Pi. Retry after 5 minutes.");
+				Thread.sleep(5 * 60 * 1000);
+				continue;
 			}
 
 			/** 画像ディレクトリ数を100以下にする **/
