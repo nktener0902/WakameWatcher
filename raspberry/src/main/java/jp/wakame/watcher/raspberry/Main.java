@@ -51,8 +51,9 @@ public class Main {
 				webcam.takePhoto();
 			} catch (IOException e) {
 				log.severe("Failed to get a photo from Rasperry Pi. Retry after 5 minutes.");
-				Thread.sleep(5 * 60 * 1000);
-				continue;
+				// デバッグ用にコメントアウト
+//				Thread.sleep(5 * 60 * 1000);
+//				continue;
 			}
 
 			/** 画像ディレクトリ数を100以下にする **/
