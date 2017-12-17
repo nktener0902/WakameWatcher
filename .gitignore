@@ -5,3 +5,5 @@ raspberry/src/main/resources/jp/wakame/watcher/util/samples.properties
 raspberry/.settings/
 raspberry/.project
 raspberry/log/log*
+.idea/
+*.iml
