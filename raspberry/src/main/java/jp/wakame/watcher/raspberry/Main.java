@@ -16,12 +16,11 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[] CommandArgs = args;
 		Weld weld = new Weld();
 		try (WeldContainer container = weld.initialize()) {
 			Main bean = container.select(Main.class).get();
 			try {
-				bean.run(CommandArgs);
+				bean.run(args);
 			} catch (AWSIotException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
@@ -31,32 +30,32 @@ public class Main {
 	}
 
 	@Inject
-	WebCamera webcam;
+	private WebCamera webcam;
 
 	@Inject
-	ISender mqtt;
+	private ISender mqtt;
 
 	@Inject
-	transient Logger log;
+	private transient Logger log;
 
-	public void run(String[] CommandArgs) throws InterruptedException, AWSIotException {
+	private void run(String[] CommandArgs) throws InterruptedException, AWSIotException {
 
-		/** AWS IoTへのコネクションを初期化 **/
+		// AWS IoTへのコネクションを初期化
 		mqtt.init(CommandArgs);
 
 		while (true) {
-			/** 画像取得 **/
+			// 画像取得
 			log.info("Take photo");
 			try {
 				webcam.takePhoto();
 			} catch (IOException e) {
-				log.severe("Failed to get a photo from Rasperry Pi. Retry after 5 minutes.");
+				log.severe("Failed to get a photo from Raspberry Pi. Retry after 5 minutes.");
 				// デバッグ用にコメントアウト
 //				Thread.sleep(5 * 60 * 1000);
 //				continue;
 			}
 
-			/** 画像ディレクトリ数を100以下にする **/
+			// 画像ディレクトリ数を100以下にする
 			try {
 				if (webcam.oldPhotoRemove()){
 					log.info("Removed old photos");
@@ -66,10 +65,10 @@ public class Main {
 				e1.printStackTrace();
 			}
 
-			/** TODO MQTTでデータ送信 **/
+			// TODO MQTTでデータ送信
 			mqtt.send();
 
-			/** 1分スリープ **/
+			// 1分スリープ
 			Thread.sleep(5 * 1000);
 		}
 	}
