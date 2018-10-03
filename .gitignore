@@ -1,9 +1,1 @@
-raspberry/target/
-raspberry/src/main/resources/jp/wakame/watcher/util/certificate.pem.crt.txt
-raspberry/src/main/resources/jp/wakame/watcher/util/private.pem.key
-raspberry/src/main/resources/jp/wakame/watcher/util/samples.properties
-raspberry/.settings/
-raspberry/.project
-raspberry/log/log*
-.idea/
-*.iml
+.idea
