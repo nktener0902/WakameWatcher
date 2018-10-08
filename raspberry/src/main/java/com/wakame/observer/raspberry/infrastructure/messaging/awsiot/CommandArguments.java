@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package com.wakame.observer.raspberry.model.messaging.impl.awsiot;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import java.util.HashMap;
 import java.util.Map;

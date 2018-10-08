@@ -19,7 +19,7 @@
  ****************************************************************************/
 // http://oauth.googlecode.com/svn/code/branches/jmeter/jmeter/src/main/java/org/apache/jmeter/protocol/oauth/sampler/PrivateKeyReader.java
 
-package com.wakame.observer.raspberry.model.messaging.impl.awsiot;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package com.wakame.observer.raspberry.model.messaging.impl.awsiot;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import com.amazonaws.services.iot.client.AWSIotMessage;
 import com.amazonaws.services.iot.client.AWSIotQos;

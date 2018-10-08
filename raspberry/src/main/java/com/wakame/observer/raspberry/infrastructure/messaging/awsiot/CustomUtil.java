@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package com.wakame.observer.raspberry.model.messaging.impl.awsiot;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import java.io.*;
 import java.math.BigInteger;

@@ -1,17 +1,18 @@
-package com.wakame.observer.raspberry.model.messaging.impl;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import com.amazonaws.services.iot.client.AWSIotMessage;
 import com.amazonaws.services.iot.client.AWSIotQos;
+import com.wakame.observer.raspberry.model.messaging.Message;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class Message extends AWSIotMessage {
+public class MessageImpl extends AWSIotMessage implements Message {
 
-    public Message(String topic, AWSIotQos qos, String payload) {
+    public MessageImpl(String topic, AWSIotQos qos, String payload) {
         super(topic, qos, payload);
     }
 
-    Log log = LogFactory.getLog(Message.class);
+    Log log = LogFactory.getLog(MessageImpl.class);
 
     @Override
     public void onSuccess() {

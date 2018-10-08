@@ -1,9 +1,8 @@
-package com.wakame.observer.raspberry.model.messaging.impl.awsiot;
+package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
-import com.wakame.observer.raspberry.model.messaging.impl.Message;
 import com.wakame.observer.raspberry.model.messaging.Messaging;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,7 @@ public class AWSIoTSender implements Messaging, Serializable{
 	@Override
 	public void init(String[] CommandArgs) throws AWSIotException {
 		CommandArguments arguments = CommandArguments.parse(CommandArgs);
-        initClient(arguments);
+		initClient(arguments);
         log.info("Initialized AWS IoT client");
 
         /** AWS IoTを接続 **/
@@ -60,7 +59,7 @@ public class AWSIoTSender implements Messaging, Serializable{
 		String payload = d1.format(d);
 		long timeout = 3000;                    // milliseconds
 
-		Message message = new Message(topicName, qos, payload);
+		MessageImpl message = new MessageImpl(topicName, qos, payload);
 		try {
 			awsIotClient.publish(message, timeout);
 			log.info("Sent message to AWS IoT");
