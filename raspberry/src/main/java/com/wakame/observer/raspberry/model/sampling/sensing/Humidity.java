@@ -1,7 +1,7 @@
 package com.wakame.observer.raspberry.model.sampling.sensing;
 
 public class Humidity {
-    double humidity;
+    private double humidity;
 
     public Humidity(double h){
         this.humidity = h;

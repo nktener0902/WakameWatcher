@@ -1,10 +1,12 @@
 package com.wakame.observer.raspberry.model.sampling.sensing;
 
-import com.wakame.observer.raspberry.model.messaging.Messaging;
+import com.wakame.observer.raspberry.model.messaging.Sending;
 
 public interface Sensing {
 
-    void init(Messaging messaging);
+    void init();
+
+    SensingData sense();
 
     void stop();
 }
