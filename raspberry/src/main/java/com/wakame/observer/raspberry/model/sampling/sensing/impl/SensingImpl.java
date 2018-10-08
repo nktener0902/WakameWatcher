@@ -1,11 +1,7 @@
 package com.wakame.observer.raspberry.model.sampling.sensing.impl;
 
-import com.wakame.observer.raspberry.model.messaging.Sending;
 import com.wakame.observer.raspberry.model.sampling.sensing.Sensing;
 import com.wakame.observer.raspberry.model.sampling.sensing.SensingData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -29,8 +25,4 @@ public class SensingImpl implements Sensing {
         return null;
     }
 
-    @Override
-    public void stop() {
-
-    }
 }

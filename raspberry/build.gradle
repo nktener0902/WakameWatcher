@@ -30,6 +30,7 @@ dependencies {
     compile('com.amazonaws:aws-iot-device-sdk-java:1.2.0')
     compile('com.github.sarxos:webcam-capture:0.3.12')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.fasterxml.jackson.core:jackson-databind')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }

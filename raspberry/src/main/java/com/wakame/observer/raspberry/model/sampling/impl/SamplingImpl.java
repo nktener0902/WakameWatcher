@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SamplingImpl implements Sampling {
+
     @Override
-    public void init() {
+    public void init() throws Exception {
 
     }
 

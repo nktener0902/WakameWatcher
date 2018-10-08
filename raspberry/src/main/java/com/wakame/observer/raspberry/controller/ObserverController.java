@@ -1,7 +1,7 @@
 package com.wakame.observer.raspberry.controller;
 
-import com.wakame.observer.raspberry.model.messaging.Sending;
-import com.wakame.observer.raspberry.model.sampling.sensing.Sensing;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wakame.observer.raspberry.service.RaspberryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,26 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ObserverController {
 
     @Autowired
-    private Sending sending;
-
-    @Autowired
-    private Sensing sensing;
+    RaspberryService raspberryService;
 
     @RequestMapping(value="start", method=RequestMethod.GET)
-    public void start() {
-
-        String[] CommandArgs = {
-                "-clientEndpoint", "a3w46o5kz2kt1t-ats.iot.ap-northeast-1.amazonaws.com",
-                "-clientId", "sdk-java",
-                "-certificateFile", "../wakamepicture.cert.pem",
-                "-privateKeyFile", "../wakamepicture.private.key"
-        };
+    public String start() {
+        String responseJson = null;
         try {
-            sending.init(CommandArgs);
-        } catch (Exception e) {
+            responseJson = raspberryService.init();
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return;
         }
-
+        return responseJson;
     }
 }
