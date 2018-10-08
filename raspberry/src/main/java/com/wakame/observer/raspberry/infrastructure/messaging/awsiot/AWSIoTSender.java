@@ -3,7 +3,7 @@ package com.wakame.observer.raspberry.infrastructure.messaging.awsiot;
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
-import com.wakame.observer.raspberry.model.messaging.Messaging;
+import com.wakame.observer.raspberry.model.messaging.Sending;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 @Component
-public class AWSIoTSender implements Messaging, Serializable{
+public class AWSIoTSender implements Sending, Serializable{
 
 	private AWSIotMqttClient awsIotClient;
 	private String topicName;

@@ -1,6 +1,6 @@
 package com.wakame.observer.raspberry.controller;
 
-import com.wakame.observer.raspberry.model.messaging.Messaging;
+import com.wakame.observer.raspberry.model.messaging.Sending;
 import com.wakame.observer.raspberry.model.sampling.sensing.Sensing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ObserverController {
 
     @Autowired
-    private Messaging messaging;
+    private Sending sending;
 
     @Autowired
     private Sensing sensing;
@@ -27,7 +27,7 @@ public class ObserverController {
                 "-privateKeyFile", "../wakamepicture.private.key"
         };
         try {
-            messaging.init(CommandArgs);
+            sending.init(CommandArgs);
         } catch (Exception e) {
             e.printStackTrace();
             return;
