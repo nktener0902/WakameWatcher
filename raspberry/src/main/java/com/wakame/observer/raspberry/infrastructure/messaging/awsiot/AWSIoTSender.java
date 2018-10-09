@@ -4,12 +4,13 @@ import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.amazonaws.services.iot.client.AWSIotQos;
 import com.wakame.observer.raspberry.model.messaging.Sender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 @Component
 public class AWSIoTSender implements Sender, Serializable{
@@ -18,17 +19,17 @@ public class AWSIoTSender implements Sender, Serializable{
 	private String topicName;
 	private AWSIotQos qos = AWSIotQos.QOS0;
 
-	transient Logger log;
+	private static final Logger logger = LoggerFactory.getLogger(AWSIoTSender.class);
 
 	@Override
 	public void init(String[] CommandArgs) throws AWSIotException {
 		CommandArguments arguments = CommandArguments.parse(CommandArgs);
 		initClient(arguments);
-        log.info("Initialized AWS IoT client");
+		logger.info("Initialized AWS IoT client");
 
         /** AWS IoTを接続 **/
         awsIotClient.connect();
-        log.info("Success connecting to your Thing of AWS IoT");
+		logger.info("Success connecting to your Thing of AWS IoT");
 	}
 
 	private void initClient(CommandArguments arguments) {
@@ -62,9 +63,9 @@ public class AWSIoTSender implements Sender, Serializable{
 		MessageImpl message = new MessageImpl(topicName, qos, payload);
 		try {
 			awsIotClient.publish(message, timeout);
-			log.info("Sent message to AWS IoT");
+			logger.info("Sent message to AWS IoT");
 		} catch (AWSIotException e) {
-			log.severe("Cannot publish msg :" + payload);
+			logger.error("Cannot publish msg :" + payload);
 			e.printStackTrace();
 		}
 	}
