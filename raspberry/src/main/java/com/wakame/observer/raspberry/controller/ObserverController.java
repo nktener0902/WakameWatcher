@@ -21,6 +21,19 @@ public class ObserverController {
             responseJson = raspberryService.init();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            return "Internal Error\n";
+        }
+        return responseJson;
+    }
+
+    @RequestMapping(value="status", method=RequestMethod.GET)
+    public String status() {
+        String responseJson = null;
+        try {
+            responseJson = raspberryService.status();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "Internal Error\n";
         }
         return responseJson;
     }

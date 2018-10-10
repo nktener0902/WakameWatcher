@@ -58,6 +58,11 @@ public class RaspberryServiceSimple implements RaspberryService{
 
     }
 
+    @Override
+    public String status() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(new Response(this.status));
+    }
+
     private class Response {
 
         public String status;
