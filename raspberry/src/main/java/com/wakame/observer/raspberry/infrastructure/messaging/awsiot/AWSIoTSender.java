@@ -26,9 +26,7 @@ public class AWSIoTSender implements Sender, Serializable{
 		CommandArguments arguments = CommandArguments.parse(CommandArgs);
 		initClient(arguments);
 		logger.info("Initialized AWS IoT client");
-
-        /** AWS IoTを接続 **/
-        awsIotClient.connect();
+                awsIotClient.connect();
 		logger.info("Success connecting to your Thing of AWS IoT");
 	}
 
@@ -37,13 +35,13 @@ public class AWSIoTSender implements Sender, Serializable{
 
 		String clientEndpoint = arguments.getNotNull("clientEndpoint", CustomUtil.getConfig("clientEndpoint"));
 		String clientId = arguments.getNotNull("clientId", CustomUtil.getConfig("clientId"));
-
 		String certificateFile = arguments.get("certificateFile", CustomUtil.getConfig("certificateFile"));
 		String privateKeyFile = arguments.get("privateKeyFile", CustomUtil.getConfig("privateKeyFile"));
+
 		if (awsIotClient == null && certificateFile != null && privateKeyFile != null) {
 			String algorithm = arguments.get("keyAlgorithm", CustomUtil.getConfig("keyAlgorithm"));
 
-            CustomUtil.KeyStorePasswordPair pair = CustomUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile, algorithm);
+                        CustomUtil.KeyStorePasswordPair pair = CustomUtil.getKeyStorePasswordPair(certificateFile, privateKeyFile, algorithm);
 
 			awsIotClient = new AWSIotMqttClient(clientEndpoint, clientId, pair.keyStore, pair.keyPassword);
 		}
