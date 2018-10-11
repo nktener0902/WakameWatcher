@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakame.observer.raspberry.model.messaging.Sender;
+import com.wakame.observer.raspberry.model.messaging.SenderException;
 import com.wakame.observer.raspberry.model.sampling.Sampling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
 
 @Service
-public class RaspberryServiceSimple implements RaspberryService{
+public class RaspberryServiceSimple implements RaspberryService {
 
     private int status;
 
@@ -27,7 +28,7 @@ public class RaspberryServiceSimple implements RaspberryService{
     @Override
     public String init() throws JsonProcessingException {
 
-        if (status == ONLINE){
+        if (status == ONLINE) {
             return objectMapper.writeValueAsString(new Response(this.status));
         }
 
@@ -63,16 +64,29 @@ public class RaspberryServiceSimple implements RaspberryService{
         return objectMapper.writeValueAsString(new Response(this.status));
     }
 
+    @Override
+    public String stop() throws JsonProcessingException {
+        try {
+            sender.stop();
+        } catch (SenderException e) {
+            e.printStackTrace();
+            return objectMapper.writeValueAsString("Response [code=1]");
+        }
+        sampling.stop();
+        status = STOPPED;
+        return objectMapper.writeValueAsString(new Response(this.status));
+    }
+
     private class Response {
 
         public String status;
 
         @JsonCreator
-        private Response(@JsonProperty("status") int s){
+        private Response(@JsonProperty("status") int s) {
             if (s == RaspberryService.ONLINE) {
                 this.status = "ONLINE";
             }
-            if (s == RaspberryService.STOPPED){
+            if (s == RaspberryService.STOPPED) {
                 this.status = "STOPPED";
             }
         }

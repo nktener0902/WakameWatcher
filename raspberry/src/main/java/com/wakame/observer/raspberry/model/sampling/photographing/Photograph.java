@@ -8,7 +8,7 @@ public class Photograph {
 
     private BufferedImage image;
 
-    public Photograph(){
+    public Photograph() {
         /** 写真を撮る **/
         Webcam webcam = null;
         webcam = Webcam.getDefault();

@@ -66,12 +66,12 @@ public class CustomUtil {
     }
 
     public static KeyStorePasswordPair getKeyStorePasswordPair(final String certificateFile, final String privateKeyFile,
-            String keyAlgorithm) {
+                                                               String keyAlgorithm) {
         if (certificateFile == null || privateKeyFile == null) {
             System.out.println("Certificate or private key file missing");
             return null;
         }
-        System.out.println("Cert file:" +certificateFile + " Private key: "+ privateKeyFile);
+        System.out.println("Cert file:" + certificateFile + " Private key: " + privateKeyFile);
 
         final PrivateKey privateKey = loadPrivateKeyFromFile(privateKeyFile, keyAlgorithm);
 

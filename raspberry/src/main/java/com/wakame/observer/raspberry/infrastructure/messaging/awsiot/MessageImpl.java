@@ -17,18 +17,18 @@ public class MessageImpl extends AWSIotMessage implements Message {
     @Override
     public void onSuccess() {
         // called when message publishing succeeded
-    	log.info(System.currentTimeMillis() + ": >>> " + getStringPayload());
+        log.info(System.currentTimeMillis() + ": >>> " + getStringPayload());
     }
 
     @Override
     public void onFailure() {
         // called when message publishing failed
-    	log.error(System.currentTimeMillis() + ": publish failed for " + getStringPayload());
+        log.error(System.currentTimeMillis() + ": publish failed for " + getStringPayload());
     }
 
     @Override
     public void onTimeout() {
         // called when message publishing timed out
-    	log.error(System.currentTimeMillis() + ": publish timeout for " + getStringPayload());
+        log.error(System.currentTimeMillis() + ": publish timeout for " + getStringPayload());
     }
 }

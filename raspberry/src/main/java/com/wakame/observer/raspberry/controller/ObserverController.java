@@ -21,7 +21,7 @@ public class ObserverController {
             responseJson = raspberryService.init();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return "Internal Error\n";
+            return "Internal Error. See logs(./raspberry/logs/raspberry.log).\n";
         }
         return responseJson;
     }
@@ -31,6 +31,18 @@ public class ObserverController {
         String responseJson = null;
         try {
             responseJson = raspberryService.status();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "Internal Error. See logs(./raspberry/logs/raspberry.log).\n";
+        }
+        return responseJson;
+    }
+
+    @RequestMapping(value="stop", method=RequestMethod.GET)
+    public String stop() {
+        String responseJson = null;
+        try {
+            responseJson = raspberryService.stop();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return "Internal Error\n";
