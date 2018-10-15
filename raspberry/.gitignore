@@ -27,3 +27,6 @@
 
 ### Log ###
 /logs/
+
+### Python ###
+venv
