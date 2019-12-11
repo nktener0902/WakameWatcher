@@ -1,7 +1,7 @@
-package com.wakame.observer.raspberry.model.sampling.sensing.impl;
+package com.wakame.observer.raspberry.model.sampling.sensor.impl;
 
-import com.wakame.observer.raspberry.model.sampling.sensing.Sensing;
-import com.wakame.observer.raspberry.model.sampling.sensing.SensingData;
+import com.wakame.observer.raspberry.model.sampling.sensor.Sensing;
+import com.wakame.observer.raspberry.model.sampling.sensor.SensedData;
 import org.python.util.PythonInterpreter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -23,7 +23,7 @@ public class SensingDHT11 implements Sensing {
     }
 
     @Override
-    public SensingData sense() {
+    public SensedData sense() {
         /** 現在時刻を取得 **/
         Date date = new Date();
         String currentData = date.toString();

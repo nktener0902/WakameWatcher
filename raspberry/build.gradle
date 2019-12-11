@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compile('com.amazonaws:aws-iot-device-sdk-java:1.2.0')
     compile('com.github.sarxos:webcam-capture:0.3.12')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter')
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('org.python:jython-standalone:2.7.0')
     testImplementation('org.springframework.boot:spring-boot-starter-test')

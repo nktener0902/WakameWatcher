@@ -2,13 +2,14 @@ package com.wakame.observer.raspberry.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.IOException;
+
 public interface RaspberryService {
     int STOPPED = 0;
     int ONLINE = 1;
 
-    String init() throws JsonProcessingException;
+    void init() throws JsonProcessingException;
 
-    String status() throws JsonProcessingException;
+    void start() throws IOException;
 
-    String stop() throws JsonProcessingException;
 }

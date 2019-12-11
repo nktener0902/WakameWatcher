@@ -6,16 +6,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakame.observer.raspberry.model.messaging.Sender;
 import com.wakame.observer.raspberry.model.messaging.SenderException;
+import com.wakame.observer.raspberry.model.sampling.Photograph;
 import com.wakame.observer.raspberry.model.sampling.Sampling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 @Service
 public class RaspberryServiceSimple implements RaspberryService {
-
-    private int status;
 
     @Autowired
     Sender sender;
@@ -26,13 +27,9 @@ public class RaspberryServiceSimple implements RaspberryService {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String init() throws JsonProcessingException {
+    public void init() throws JsonProcessingException {
 
-        if (status == ONLINE) {
-            return objectMapper.writeValueAsString(new Response(this.status));
-        }
-
-        String[] CommandArgs = {
+        String[] AwsIotCommandArgs = {
                 "-clientEndpoint", "a3w46o5kz2kt1t-ats.iot.ap-northeast-1.amazonaws.com",
                 "-clientId", "sdk-java",
                 "-certificateFile", "../wakamepicture.cert.pem",
@@ -40,60 +37,28 @@ public class RaspberryServiceSimple implements RaspberryService {
         };
 
         try {
-            sender.init(CommandArgs);
+            sender.init(AwsIotCommandArgs);
         } catch (Exception e) {
             e.printStackTrace();
-            return objectMapper.writeValueAsString(new Response(this.status));
         }
 
         try {
             sampling.init();
         } catch (Exception e) {
             e.printStackTrace();
-            return objectMapper.writeValueAsString(new Response(this.status));
         }
-
-        status = ONLINE;
-
-        return objectMapper.writeValueAsString(new Response(this.status));
-
     }
 
     @Override
-    public String status() throws JsonProcessingException {
-        return objectMapper.writeValueAsString(new Response(this.status));
-    }
-
-    @Override
-    public String stop() throws JsonProcessingException {
-        try {
-            sender.stop();
-        } catch (SenderException e) {
-            e.printStackTrace();
-            return objectMapper.writeValueAsString("Response [code=1]");
-        }
-        sampling.stop();
-        status = STOPPED;
-        return objectMapper.writeValueAsString(new Response(this.status));
-    }
-
-    private class Response {
-
-        public String status;
-
-        @JsonCreator
-        private Response(@JsonProperty("status") int s) {
-            if (s == RaspberryService.ONLINE) {
-                this.status = "ONLINE";
+    public void start() throws IOException {
+        while(true) {
+            Photograph photograph = sampling.take();
+            photograph.storeTo(Paths.get("C:\\Users\\y-nakata\\Desktop"));
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            if (s == RaspberryService.STOPPED) {
-                this.status = "STOPPED";
-            }
-        }
-
-        @Override
-        public String toString() {
-            return "Response [status=" + this.status + "]";
         }
     }
 }
