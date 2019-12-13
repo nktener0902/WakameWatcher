@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.model.sampling;
+package com.wakame.observer.raspberry.domain.sampling;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

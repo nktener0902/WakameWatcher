@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.model.messaging;
+package com.wakame.observer.raspberry.domain.messaging;
 
 public class SenderException extends Exception {
     /**

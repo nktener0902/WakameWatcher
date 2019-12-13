@@ -1,14 +1,21 @@
-package com.wakame.observer.raspberry.model.sampling.camera;
+package com.wakame.observer.raspberry.domain.sampling;
 
 import com.github.sarxos.webcam.Webcam;
-import com.wakame.observer.raspberry.model.sampling.Photograph;
-import org.springframework.stereotype.Component;
 
-@Component
-public class CameraImpl implements Camera {
+import java.util.List;
+
+public class Camera {
+
+    static public Camera createCamera(){
+        return new Camera();
+    }
+
+    private Camera(){}
 
     public Photograph takePhoto() {
         Webcam webcam = null;
+        List<Webcam> webcams = Webcam.getWebcams();
+        System.out.println(webcams.size());
         webcam = Webcam.getDefault();
         if (webcam != null) {
             System.out.println("Webcam : " + webcam.getName());

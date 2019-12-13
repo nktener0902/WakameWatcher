@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.model.sampling.sensor;
+package com.wakame.observer.raspberry.domain.sampling.sensor;
 
 public class Humidity {
     private double humidity;

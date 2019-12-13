@@ -32,6 +32,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('org.python:jython-standalone:2.7.0')
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }

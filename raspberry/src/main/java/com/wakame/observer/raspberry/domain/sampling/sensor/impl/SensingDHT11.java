@@ -1,7 +1,7 @@
-package com.wakame.observer.raspberry.model.sampling.sensor.impl;
+package com.wakame.observer.raspberry.domain.sampling.sensor.impl;
 
-import com.wakame.observer.raspberry.model.sampling.sensor.Sensing;
-import com.wakame.observer.raspberry.model.sampling.sensor.SensedData;
+import com.wakame.observer.raspberry.domain.sampling.sensor.Sensing;
+import com.wakame.observer.raspberry.domain.sampling.sensor.SensedData;
 import org.python.util.PythonInterpreter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
