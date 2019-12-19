@@ -5,12 +5,12 @@ public class Sampler {
     private Camera camera;
 
     static public Sampler createSampler(){
-        return new Sampler();
+        return new Sampler(Camera.createCamera());
     }
 
-    public Sampler(){
+    private Sampler(Camera camera){
 
-        this.camera = Camera
+        this.camera = camera;
 
     }
 

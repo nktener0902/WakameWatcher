@@ -14,28 +14,27 @@ import java.nio.file.Paths;
 @Service
 public class RaspberryServiceSimple implements RaspberryService {
 
-    @Autowired
-    Sampler sampling;
+    private Sampler sampler;
 
     @Autowired
-    SlackMessageSender slackMessageSender;
+    private AppConfig appConfig;
+
+    @Autowired
+    private SlackMessageSender slackMessageSender;
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void init() throws JsonProcessingException {
 
-        try {
-            sampling.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.sampler = Sampler.createSampler();
+
     }
 
     @Override
     public void start() throws IOException {
         while(true) {
-            Photograph photograph = sampling.take();
+            Photograph photograph = sampler.take();
             photograph.storeTo(Paths.get("C:\\Users\\y-nakata\\Desktop"));
             slackMessageSender.post();
             try {
