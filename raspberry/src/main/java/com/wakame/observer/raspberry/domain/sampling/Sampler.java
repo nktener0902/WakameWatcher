@@ -1,5 +1,10 @@
 package com.wakame.observer.raspberry.domain.sampling;
 
+import com.wakame.observer.raspberry.domain.sampling.camera.Camera;
+import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
+
+import java.io.IOException;
+
 public class Sampler {
 
     private Camera camera;
@@ -14,7 +19,7 @@ public class Sampler {
 
     }
 
-    public Photograph take() {
+    public Photograph take() throws IOException {
         return camera.takePhoto();
     }
 }

@@ -2,14 +2,12 @@ package com.wakame.observer.raspberry.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wakame.observer.raspberry.domain.sampling.Photograph;
+import com.wakame.observer.raspberry.domain.config.AppConfig;
 import com.wakame.observer.raspberry.domain.sampling.Sampler;
+import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
 import com.wakame.observer.raspberry.infrastructure.messaging.slack.SlackMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.file.Paths;
 
 @Service
 public class RaspberryServiceSimple implements RaspberryService {
@@ -32,10 +30,9 @@ public class RaspberryServiceSimple implements RaspberryService {
     }
 
     @Override
-    public void start() throws IOException {
+    public void start() throws Exception {
         while(true) {
             Photograph photograph = sampler.take();
-            photograph.storeTo(Paths.get("C:\\Users\\y-nakata\\Desktop"));
             slackMessageSender.post();
             try {
                 Thread.sleep(10000);

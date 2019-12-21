@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.domain.sampling;
+package com.wakame.observer.raspberry.domain.sampling.camera;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -10,6 +10,6 @@ public interface RaspberryService {
 
     void init() throws JsonProcessingException;
 
-    void start() throws IOException;
+    void start() throws Exception;
 
 }

@@ -1,28 +1,31 @@
 package com.wakame.observer.raspberry.infrastructure.messaging.slack;
 
+import com.wakame.observer.raspberry.domain.config.AppConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
+@Slf4j
 @Component
 public class SlackMessageSenderImpl implements SlackMessageSender {
 
+    @Autowired
+    private AppConfig appConfig;
+
+    // TODO: AppConfigのslackWebhookUrlで指定されたファイルに書かれた文字列をWebhookUrl型にして初期化する
     private WebhookUrl webhookUrl;
 
     @Override
-    public void init() {
+    public void post() throws Exception {
 
-    }
-
-    @Override
-    public void post() {
+        webhookUrl = WebhookUrl.createWebhook(appConfig.getSlackWebhookUrl());
 
         HttpURLConnection uc;
         try {
-            URL url = new URL("https://hooks.slack.com/services/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");
-            uc = (HttpURLConnection) url.openConnection();
+            uc = (HttpURLConnection) webhookUrl.getUrl().openConnection();
             uc.setRequestMethod("POST");
             uc.setUseCaches(false);
             uc.setDoOutput(true);

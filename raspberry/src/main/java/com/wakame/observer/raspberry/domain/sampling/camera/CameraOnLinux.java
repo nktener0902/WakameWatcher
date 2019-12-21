@@ -1,17 +1,12 @@
-package com.wakame.observer.raspberry.domain.sampling;
+package com.wakame.observer.raspberry.domain.sampling.camera;
 
 import com.github.sarxos.webcam.Webcam;
 
 import java.util.List;
 
-public class Camera {
+public class CameraOnLinux implements Camera {
 
-    static public Camera createCamera(){
-        return new Camera();
-    }
-
-    private Camera(){}
-
+    @Override
     public Photograph takePhoto() {
         Webcam webcam = null;
         List<Webcam> webcams = Webcam.getWebcams();
