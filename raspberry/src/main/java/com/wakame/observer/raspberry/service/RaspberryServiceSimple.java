@@ -33,7 +33,7 @@ public class RaspberryServiceSimple implements RaspberryService {
     public void start() throws Exception {
         while(true) {
             Photograph photograph = sampler.take();
-            slackMessageSender.post();
+            slackMessageSender.post(photograph);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

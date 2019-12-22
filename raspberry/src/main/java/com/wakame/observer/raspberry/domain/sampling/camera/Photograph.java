@@ -5,26 +5,34 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class Photograph {
 
-    private BufferedImage image;
+    private File image;
+    private final Path path;
 
-    static public Photograph createPhoto(BufferedImage bufferedImage) {
-        return new Photograph(bufferedImage);
+    static public Photograph createPhoto(File file) {
+        return new Photograph(file);
     }
 
-    private Photograph(BufferedImage bufferedImage) {
-        this.image = bufferedImage;
+    static public Photograph createPhoto(BufferedImage bi) {
+        try {
+            ImageIO.write(bi, "PNG", new File("./photo.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Photograph(new File("./photo.png"));
     }
 
-    public void storeTo(Path path) throws IOException {
-        Calendar cl = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String fileName = sdf.format(cl.getTime()) + ".png";
-        ImageIO.write(image, "png", new File(path.toString() + "\\" + fileName));
+    private Photograph(File file) {
+        this.image = file;
+        this.path = file.toPath();
     }
+
+    public Path getPath() {
+        return this.path;
+    }
+
+    public File getImage() {return this.image; }
 
 }

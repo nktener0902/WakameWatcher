@@ -1,7 +1,5 @@
 package com.wakame.observer.raspberry.domain.sampling.camera;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,7 +25,6 @@ public class CameraOnMac implements Camera {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
-        BufferedImage bufferedImage = ImageIO.read(new File("./tmp/photo.png"));
-        return Photograph.createPhoto(bufferedImage);
+        return Photograph.createPhoto(new File("./tmp/photo.png"));
     }
 }

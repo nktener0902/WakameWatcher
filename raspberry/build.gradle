@@ -19,8 +19,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'com.wakame.observer'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -32,6 +32,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('org.python:jython-standalone:2.7.0')
+    compile('com.konghq:unirest-java:3.3.00')
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation('org.springframework.boot:spring-boot-starter-test')

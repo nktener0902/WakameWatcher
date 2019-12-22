@@ -17,10 +17,24 @@ public class AppConfig {
     @Value("${slack.webhook.url:/tmp/slack/webhook/url}")
     private String slackWebhookUrl;
 
+    @Value("${slack.webhook.token:/tmp/slack/webhook/token}")
+    private String slackWebhookToken;
+
+    @Value("${slack.webhook.channel:/tmp/slack/webhook/channel}")
+    private String slackWebhookChannel;
+
     public String getSlackWebhookUrl() throws IOException {
-        log.info(this.slackWebhookUrl);
         List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookUrl), StandardCharsets.UTF_8);
-        log.info(lines.get(0));
+        return lines.get(0);
+    }
+
+    public String getSlackWebhookToken() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookToken), StandardCharsets.UTF_8);
+        return lines.get(0);
+    }
+
+    public String getSlackWebhookChannel() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookChannel), StandardCharsets.UTF_8);
         return lines.get(0);
     }
 
