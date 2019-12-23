@@ -53,10 +53,10 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
 //                .asString();
 //        log.info(response.getBody());
 
-        String curl = "curl -Ss --location --request POST 'https://slack.com/api/files.upload' " +
+        String curl = "curl -Ss --location --request POST '" + webhookUri.toString() + "' " +
                 "--header 'Content-Type: multipart/form-data' " +
-                "--form 'token=xoxp-58249821138-58228418116-883113058085-b418994226e8abfb292d499bc0cb5026' " +
-                "--form 'channels=wakame' " +
+                "--form 'token=" + token.toString() + "' " +
+                "--form 'channels=" + channel.toString() + "' " +
                 "--form 'file=@/Users/y-nakata/dev/nktener0902/pet-watcher/raspberry/tmp/photo.png'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", curl);
         builder.redirectErrorStream(true);
