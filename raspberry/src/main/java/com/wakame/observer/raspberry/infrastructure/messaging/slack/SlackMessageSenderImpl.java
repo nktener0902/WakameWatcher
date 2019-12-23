@@ -27,10 +27,10 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
         token = Token.createToken(appConfig.getSlackWebhookToken());
         channel = Channel.createChannel(appConfig.getSlackWebhookChannel());
 
-        log.info("webhookUri=" + webhookUri.toString());
-        log.info("token=" + token.toString());
-        log.info("channel=" + channel.toString());
-        log.info("imagePath=" + photograph.getImage().getAbsolutePath());
+        log.debug("webhookUri=" + webhookUri.toString());
+        log.debug("token=" + token.toString());
+        log.debug("channel=" + channel.toString());
+        log.debug("imagePath=" + photograph.getImage().getAbsolutePath());
 
 //        try (FileInputStream fIStream= new FileInputStream(photograph.getImage().getAbsoluteFile())) {
 //            InputStreamReader iSReader = new InputStreamReader(fIStream, "UTF-8");
