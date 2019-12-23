@@ -57,7 +57,7 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
                 "--header 'Content-Type: multipart/form-data' " +
                 "--form 'token=" + token.toString() + "' " +
                 "--form 'channels=" + channel.toString() + "' " +
-                "--form 'file=@/Users/y-nakata/dev/nktener0902/pet-watcher/raspberry/tmp/photo.png'";
+                "--form 'file=@" + photograph.getImage().getAbsolutePath() + "'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", curl);
         builder.redirectErrorStream(true);
         Process p = builder.start();
