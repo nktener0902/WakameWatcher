@@ -35,7 +35,7 @@ public class RaspberryServiceSimple implements RaspberryService {
             Photograph photograph = sampler.take();
             slackMessageSender.post(photograph);
             try {
-                Thread.sleep(10000);
+                Thread.sleep(3600000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
