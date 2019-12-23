@@ -6,9 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.util.Arrays;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 @Slf4j
 @Component
@@ -54,18 +53,27 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
 //                .asString();
 //        log.info(response.getBody());
 
-        final List<String> execPath = Arrays.asList(("curl --location --request POST '" + webhookUri.toString() + "'" +
-                " --header 'Content-Type: multipart/form-data'" +
-                " --form 'token=" + token.toString() + "'" +
-                " --form 'channels=" + channel.toString() + "'" +
-                " --form 'file=@/Users/y-nakata/dev/nktener0902/pet-watcher/raspberry/tmp/photo.png").split(" "));
-        try {
-            Process proc = new ProcessBuilder(execPath).start();
-            proc.waitFor();
-        }catch(IOException | InterruptedException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+        String curl = "curl -Ss --location --request POST 'https://slack.com/api/files.upload' " +
+                "--header 'Content-Type: multipart/form-data' " +
+                "--form 'token=xoxp-58249821138-58228418116-883113058085-b418994226e8abfb292d499bc0cb5026' " +
+                "--form 'channels=wakame' " +
+                "--form 'file=@/Users/y-nakata/dev/nktener0902/pet-watcher/raspberry/tmp/photo.png'";
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", curl);
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line;
+        int linenum = 0;
+        while (true) {
+            linenum++;
+            line = r.readLine();
+            if (line == null) {
+                break;
+            }
+            sb.append(line);
         }
+        System.out.println(sb);
     }
 
 }
