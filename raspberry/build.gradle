@@ -27,12 +27,12 @@ repositories {
 }
 
 dependencies {
-    compile('com.amazonaws:aws-iot-device-sdk-java:1.2.0')
-    compile('com.github.sarxos:webcam-capture:0.3.12')
-    compile('org.springframework.boot:spring-boot-starter')
-    compile('com.fasterxml.jackson.core:jackson-databind')
-    compile('org.python:jython-standalone:2.7.0')
-    compile('com.konghq:unirest-java:3.3.00')
+    implementation('com.amazonaws:aws-iot-device-sdk-java:1.2.0')
+    implementation('com.github.sarxos:webcam-capture:0.3.12')
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation('com.fasterxml.jackson.core:jackson-databind')
+    implementation('org.python:jython-standalone:2.7.0')
+    implementation('com.konghq:unirest-java:3.3.00')
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
