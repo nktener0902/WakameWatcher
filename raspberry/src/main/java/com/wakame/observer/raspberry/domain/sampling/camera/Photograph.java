@@ -19,9 +19,9 @@ public class Photograph {
         File directory = new File("./tmp");
         if (!directory.exists()) {
             if (directory.mkdirs()) {
-                System.out.println("フォルダの作成に成功しました");
+                System.out.println("A directory was created successfully");
             } else {
-                throw new IOException("Cannot create new directory to store pictures");
+                throw new IOException("Cannot create new directory that is for storing pictures");
             }
         }
         try {
