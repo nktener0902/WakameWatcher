@@ -23,6 +23,9 @@ public class AppConfig {
     @Value("${slack.webhook.channel:/tmp/slack/webhook/channel}")
     private String slackWebhookChannel;
 
+    @Value("${interval}")
+    private String interval;
+
     public String getSlackWebhookUrl() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookUrl), StandardCharsets.UTF_8);
         return lines.get(0);
@@ -36,6 +39,10 @@ public class AppConfig {
     public String getSlackWebhookChannel() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookChannel), StandardCharsets.UTF_8);
         return lines.get(0);
+    }
+
+    public Integer getInterval(){
+        return Integer.parseInt(interval);
     }
 
 }
