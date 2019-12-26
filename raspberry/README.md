@@ -2,7 +2,7 @@
 
 ## What is
 
-This app takes a photo and send the photo to Slack once an hour.
+This app takes a photo and sends the photo to Slack.
 
 ## How to use
 
@@ -24,6 +24,11 @@ This app needs following three files.
 
 Pathes of these files is configurable.
 You can change the path in `/raspberry/src/main/resources/application.properties`.
+
+This app repeats taking a photo and sending the photo.
+By default, the interval time is a hour.
+You can configure the interval time.
+The setting of the interval time is written in `/raspberry/src/main/resources/application.properties`.
 
 ### Run on mac
 
