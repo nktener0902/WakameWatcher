@@ -22,7 +22,7 @@ This app needs following three files.
 * `/tmp/pet-watcher/slack/webhook/token`
   - Your token (xoxp-...)
 
-Pathes of these files is configurable.
+Pathes of these files are configurable.
 You can change the path in `/raspberry/src/main/resources/application.properties`.
 
 This app repeats taking a photo and sending the photo.
