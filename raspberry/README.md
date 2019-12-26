@@ -18,7 +18,7 @@ This app needs following three files.
 * `/tmp/pet-watcher/slack/webhook/url`
   - URL of Slack file.upload API (https://slack.com/api/files.upload)
 * `/tmp/pet-watcher/slack/webhook/channel`
-  - Channel where this app post a photo
+  - Channel where this app will post a photo
 * `/tmp/pet-watcher/slack/webhook/token`
   - Your token (xoxp-...)
 
