@@ -27,7 +27,9 @@
 
 ### Log ###
 /logs/
+nohup.out
 
 ### Python ###
 venv
 /tmp/
+
