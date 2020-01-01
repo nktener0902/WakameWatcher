@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.infrastructure.messaging.slack;
+package com.wakame.observer.raspberry.infrastructure.slack;
 
 public class Token {
 
