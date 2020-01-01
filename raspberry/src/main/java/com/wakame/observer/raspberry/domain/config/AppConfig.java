@@ -3,6 +3,7 @@ package com.wakame.observer.raspberry.domain.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.regions.Region;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +27,12 @@ public class AppConfig {
     @Value("${interval}")
     private String interval;
 
+    @Value("${aws.sqs.queuename}")
+    private String queueName;
+
+    @Value("${aws.sqs.region}")
+    private String sqsRegion;
+
     public String getSlackWebhookUrl() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(this.slackWebhookUrl), StandardCharsets.UTF_8);
         return lines.get(0);
@@ -44,5 +51,9 @@ public class AppConfig {
     public Integer getInterval(){
         return Integer.parseInt(interval);
     }
+
+    public String getQueueName() {return this.queueName; }
+
+    public Region getSqsRegion() { return Region.of(this.sqsRegion); }
 
 }

@@ -3,6 +3,7 @@ package com.wakame.observer.raspberry.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakame.observer.raspberry.domain.config.AppConfig;
+import com.wakame.observer.raspberry.domain.controller.Subscriber;
 import com.wakame.observer.raspberry.domain.sampling.Sampler;
 import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
 import com.wakame.observer.raspberry.infrastructure.slack.SlackMessageSender;
@@ -20,6 +21,9 @@ public class RaspberryServiceSimple implements RaspberryService {
     @Autowired
     private SlackMessageSender slackMessageSender;
 
+    @Autowired
+    private Subscriber subscriber;
+
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -31,6 +35,7 @@ public class RaspberryServiceSimple implements RaspberryService {
 
     @Override
     public void start() throws Exception {
+        subscriber.incoming();
         while(true) {
             Photograph photograph = sampler.take();
             slackMessageSender.post(photograph);
