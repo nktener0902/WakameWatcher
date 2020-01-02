@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 import software.amazon.awssdk.services.sqs.model.GetQueueUrlRequest;
 import software.amazon.awssdk.services.sqs.model.Message;
 import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +20,9 @@ public class Subscriber {
     @Autowired
     private AppConfig appConfig;
 
-    public PhotoOrderMessage incoming(){
+    public List<PhotoOrderMessage> getMessages(){
+
+        log.info("Access AWS SQS");
 
         String queueName = appConfig.getQueueName();
         SqsClient sqsClient = SqsClient.builder().region(appConfig.getSqsRegion()).build();
@@ -34,10 +38,20 @@ public class Subscriber {
                 .build();
         List<Message> messages= sqsClient.receiveMessage(receiveMessageRequest).messages();
 
-        for(Message message : messages) {
+        var messagesList = new ArrayList<PhotoOrderMessage>();
+
+        for (Message message : messages) {
             log.info(message.body());
+            messagesList.add(new PhotoOrderMessage(message.body()));
+            DeleteMessageRequest deleteMessageRequest = DeleteMessageRequest.builder()
+                    .queueUrl(queueUrl)
+                    .receiptHandle(message.receiptHandle())
+                    .build();
+            sqsClient.deleteMessage(deleteMessageRequest);
         }
 
-        return new PhotoOrderMessage();
+        sqsClient.close();
+
+        return messagesList;
     }
 }
