@@ -11,7 +11,7 @@ public interface Camera {
                 return new CameraOnLinux();
             case "mac os x":
                 return new CameraOnMac();
-            case "windows":
+            case "windows 10":
                 return new CameraOnWindows();
             default:
                 throw new RuntimeException("Unsupported OS: " + OS_NAME);
