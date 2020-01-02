@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.infrastructure.messaging.slack;
+package com.wakame.observer.raspberry.infrastructure.slack;
 
 import com.wakame.observer.raspberry.domain.config.AppConfig;
 import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;

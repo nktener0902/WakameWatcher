@@ -15,13 +15,21 @@ public class Photograph {
         return new Photograph(file);
     }
 
-    static public Photograph createPhoto(BufferedImage bi) {
+    static public Photograph createPhoto(BufferedImage bi) throws IOException {
+        File directory = new File("./tmp");
+        if (!directory.exists()) {
+            if (directory.mkdirs()) {
+                System.out.println("A directory was created successfully");
+            } else {
+                throw new IOException("Cannot create new directory that is for storing pictures");
+            }
+        }
         try {
-            ImageIO.write(bi, "PNG", new File("./photo.png"));
+            ImageIO.write(bi, "PNG", new File("./tmp/photo.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Photograph(new File("./photo.png"));
+        return new Photograph(new File("tmp/photo.png"));
     }
 
     private Photograph(File file) {
