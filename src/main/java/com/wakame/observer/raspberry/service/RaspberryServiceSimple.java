@@ -3,9 +3,8 @@ package com.wakame.observer.raspberry.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakame.observer.raspberry.domain.config.AppConfig;
-import com.wakame.observer.raspberry.domain.controller.Subscriber;
+import com.wakame.observer.raspberry.domain.adapter.Subscriber;
 import com.wakame.observer.raspberry.domain.sampling.Sampler;
-import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
 import com.wakame.observer.raspberry.infrastructure.slack.SlackMessageSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class RaspberryServiceSimple implements RaspberryService {
 
     @Override
     public void start() throws Exception {
-        subscriber.getMessages();
         long start = 0;
         long end = 0;
         while(true) {

@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.domain.controller;
+package com.wakame.observer.raspberry.domain.adapter;
 
 import lombok.Value;
 

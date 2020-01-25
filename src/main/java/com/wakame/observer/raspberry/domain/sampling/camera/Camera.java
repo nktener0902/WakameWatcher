@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface Camera {
 
-    public static Camera createCamera(){
+    static Camera createCamera(){
         final String OS_NAME = System.getProperty("os.name").toLowerCase();
         switch (OS_NAME) {
             case "linux":

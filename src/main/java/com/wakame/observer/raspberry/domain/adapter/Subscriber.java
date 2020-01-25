@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.domain.controller;
+package com.wakame.observer.raspberry.domain.adapter;
 
 import com.wakame.observer.raspberry.domain.config.AppConfig;
 import lombok.extern.slf4j.Slf4j;
