@@ -21,7 +21,7 @@ public class CameraOnLinux implements Camera {
                 throw new IOException("Cannot create new directory to store pictures");
             }
         }
-        final List<String> execPath = Arrays.asList("fswebcam -r 1920x1080 -F 100 ./tmp/photo.png".split(" "));
+        final List<String> execPath = Arrays.asList("fswebcam -r 1920x1080 -F 1 -S 20 ./tmp/photo.png".split(" "));
         try {
             Process proc = new ProcessBuilder(execPath).start();
             InputStream in = proc.getInputStream();
