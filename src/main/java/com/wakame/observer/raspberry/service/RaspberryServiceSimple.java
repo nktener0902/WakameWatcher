@@ -41,10 +41,8 @@ public class RaspberryServiceSimple implements RaspberryService {
         long start = 0;
         long end = 0;
         while(true) {
-            log.info("Go on a next interval");
+            slackMessageSender.post(sampler.take());
             start = System.currentTimeMillis();
-            Photograph photograph = sampler.take();
-            //slackMessageSender.post(photograph);
             end = System.currentTimeMillis();
             while((end - start) < appConfig.getInterval()) {
                 try {
@@ -52,12 +50,11 @@ public class RaspberryServiceSimple implements RaspberryService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (!subscriber.getMessages().isEmpty()){
-                    log.info("Received a photo request");
-                    photograph = sampler.take();
-                    slackMessageSender.post(photograph);
-                } else {
+                if (subscriber.getMessages().isEmpty()){
                     log.info("No photo request");
+                } else {
+                    log.info("Received a photo request");
+                    slackMessageSender.post(sampler.take());
                 }
                 end = System.currentTimeMillis();
             }
