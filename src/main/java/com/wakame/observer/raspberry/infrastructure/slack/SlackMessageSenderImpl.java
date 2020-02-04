@@ -32,27 +32,6 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
         log.debug("channel=" + channel.toString());
         log.debug("imagePath=" + photograph.getImage().getAbsolutePath());
 
-//        try (FileInputStream fIStream= new FileInputStream(photograph.getImage().getAbsoluteFile())) {
-//            InputStreamReader iSReader = new InputStreamReader(fIStream, "UTF-8");
-//
-//            int data;
-//            while ((data = iSReader.read()) != -1) {
-//                System.out.println(data);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-//        HttpResponse<String> response = Unirest.post(webhookUri.toString())
-//                .header("Content-Type", "multipart/form-data")
-//                //.header("Content-Type", "application/x-www-form-urlencoded")
-//                .header("Authorization", "Bearer " + token.toString())
-//                .field("token", token.toString())
-//                .field("channels", channel.toString())
-//                .field("file", new FileInputStream(photograph.getImage().getAbsoluteFile()), MULTIPART_FORM_DATA)
-//                .asString();
-//        log.info(response.getBody());
-
         String curl = "curl -Ss --location --request POST '" + webhookUri.toString() + "' " +
                 "--header 'Content-Type: multipart/form-data' " +
                 "--form 'token=" + token.toString() + "' " +
