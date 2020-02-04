@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wakame.observer.raspberry.domain.config.AppConfig;
 import com.wakame.observer.raspberry.domain.adapter.Subscriber;
 import com.wakame.observer.raspberry.domain.sampling.Sampler;
-import com.wakame.observer.raspberry.infrastructure.slack.SlackMessageSender;
+import com.wakame.observer.raspberry.domain.messaging.SlackMessageSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

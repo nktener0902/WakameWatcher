@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.infrastructure.slack;
+package com.wakame.observer.raspberry.domain.messaging;
 
 import java.net.URI;
 

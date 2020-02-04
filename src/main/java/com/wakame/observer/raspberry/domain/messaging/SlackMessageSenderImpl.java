@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.infrastructure.slack;
+package com.wakame.observer.raspberry.domain.messaging;
 
 import com.wakame.observer.raspberry.domain.config.AppConfig;
 import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -16,6 +16,9 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
     @Autowired
     private AppConfig appConfig;
 
+    @Autowired
+    private HttpSender httpSender;
+
     private WebhookUri webhookUri;
     private Token token;
     private Channel channel;
@@ -23,6 +26,10 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
     @Override
     public void post(Photograph photograph) throws Exception {
 
+        //TODO: Infer an existence of a cat in the given photograph
+
+        //TODO: If a cat is in the given photograph, send the photo to a slack channel.
+        //      Otherwise, send a message to a slack channel.
         webhookUri = WebhookUri.createWebhook(appConfig.getSlackWebhookUrl());
         token = Token.createToken(appConfig.getSlackWebhookToken());
         channel = Channel.createChannel(appConfig.getSlackWebhookChannel());
@@ -32,27 +39,13 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
         log.debug("channel=" + channel.toString());
         log.debug("imagePath=" + photograph.getImage().getAbsolutePath());
 
-        String curl = "curl -Ss --location --request POST '" + webhookUri.toString() + "' " +
-                "--header 'Content-Type: multipart/form-data' " +
-                "--form 'token=" + token.toString() + "' " +
-                "--form 'channels=" + channel.toString() + "' " +
-                "--form 'file=@" + photograph.getImage().getAbsolutePath() + "'";
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", curl);
-        builder.redirectErrorStream(true);
-        Process p = builder.start();
-        StringBuilder sb = new StringBuilder();
-        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line;
-        int linenum = 0;
-        while (true) {
-            linenum++;
-            line = r.readLine();
-            if (line == null) {
-                break;
-            }
-            sb.append(line);
-        }
-        System.out.println(sb);
+        Map<String, String> forms = new HashMap<>();
+        forms.put("token", token.toString());
+        forms.put("channel", channel.toString());
+        forms.put("imagePath", "@"+photograph.getImage().getAbsolutePath());
+
+        httpSender.post(webhookUri.toString(), forms);
+
     }
 
 }
