@@ -1,6 +1,6 @@
 package com.wakame.observer.raspberry.domain.messaging;
 
-import com.wakame.observer.raspberry.domain.config.AppConfig;
+import com.wakame.observer.raspberry.AppConfig;
 import com.wakame.observer.raspberry.domain.sampling.camera.Photograph;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

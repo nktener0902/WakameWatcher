@@ -2,8 +2,8 @@ package com.wakame.observer.raspberry.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wakame.observer.raspberry.domain.config.AppConfig;
-import com.wakame.observer.raspberry.domain.adapter.Subscriber;
+import com.wakame.observer.raspberry.AppConfig;
+import com.wakame.observer.raspberry.adapter.Subscriber;
 import com.wakame.observer.raspberry.domain.sampling.Sampler;
 import com.wakame.observer.raspberry.domain.messaging.SlackMessageSender;
 import lombok.extern.slf4j.Slf4j;

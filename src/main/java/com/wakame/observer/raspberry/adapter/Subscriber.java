@@ -1,6 +1,6 @@
-package com.wakame.observer.raspberry.domain.adapter;
+package com.wakame.observer.raspberry.adapter;
 
-import com.wakame.observer.raspberry.domain.config.AppConfig;
+import com.wakame.observer.raspberry.AppConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

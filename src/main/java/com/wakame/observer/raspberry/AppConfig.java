@@ -1,4 +1,4 @@
-package com.wakame.observer.raspberry.domain.config;
+package com.wakame.observer.raspberry;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
