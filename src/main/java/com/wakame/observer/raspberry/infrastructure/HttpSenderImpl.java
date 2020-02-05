@@ -48,7 +48,6 @@ public class HttpSenderImpl implements HttpSender {
                 "'token=" + forms.get("token") +
                 "&channel=" + forms.get("channel")+
                 "&text="+ forms.get("text") + "' " + uri;
-        log.info(curl);
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", curl);
         builder.redirectErrorStream(true);
         Process p = builder.start();
