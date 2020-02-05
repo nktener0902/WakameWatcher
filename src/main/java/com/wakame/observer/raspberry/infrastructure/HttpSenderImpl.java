@@ -1,17 +1,15 @@
 package com.wakame.observer.raspberry.infrastructure;
 
 import com.wakame.observer.raspberry.domain.messaging.HttpSender;
-import com.wakame.observer.raspberry.domain.messaging.SenderException;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.rekognition.RekognitionClient;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
+@Component
 public class HttpSenderImpl implements HttpSender {
 
     @Override

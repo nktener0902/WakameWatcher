@@ -26,7 +26,9 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
     @Override
     public void post(Photograph photograph) throws Exception {
 
-        //TODO: Infer an existence of a cat in the given photograph
+        if(photograph.includesCat()) {
+           log.info("Your cat is out now.");
+        }
 
         //TODO: If a cat is in the given photograph, send the photo to a slack channel.
         //      Otherwise, send a message to a slack channel.
