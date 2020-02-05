@@ -49,7 +49,7 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
 
         Map<String, String> forms = new HashMap<>();
         forms.put("token", token.toString());
-        forms.put("channel", channel.toString());
+        forms.put("channels", channel.toString());
         forms.put("file", "@"+photograph.getImage().getAbsolutePath());
 
         httpSender.postImage(webhookUri.toString(), forms);
