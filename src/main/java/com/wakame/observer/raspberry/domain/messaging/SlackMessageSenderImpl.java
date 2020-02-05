@@ -26,12 +26,6 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
     @Override
     public void post(Photograph photograph) throws Exception {
 
-        if(photograph.includesCat()) {
-           log.info("Your cat is out now.");
-        }
-
-        //TODO: If a cat is in the given photograph, send the photo to a slack channel.
-        //      Otherwise, send a message to a slack channel.
         webhookUri = WebhookUri.createWebhook(appConfig.getSlackWebhookUrl());
         token = Token.createToken(appConfig.getSlackWebhookToken());
         channel = Channel.createChannel(appConfig.getSlackWebhookChannel());
@@ -41,12 +35,24 @@ public class SlackMessageSenderImpl implements SlackMessageSender {
         log.debug("channel=" + channel.toString());
         log.debug("imagePath=" + photograph.getImage().getAbsolutePath());
 
+        if(!photograph.includesCat()) {
+           log.info("Your cat is out now.");
+           Map<String, String> forms = new HashMap<>();
+           forms.put("token", token.toString());
+           forms.put("channel", channel.toString());
+           forms.put("text", "Your cat is out now.");
+           httpSender.postText("https://slack.com/api/chat.postMessage", forms);
+        }
+
+        //TODO: If a cat is in the given photograph, send the photo to a slack channel.
+        //      Otherwise, send a message to a slack channel.
+
         Map<String, String> forms = new HashMap<>();
         forms.put("token", token.toString());
         forms.put("channel", channel.toString());
         forms.put("imagePath", "@"+photograph.getImage().getAbsolutePath());
 
-        httpSender.post(webhookUri.toString(), forms);
+        httpSender.postImage(webhookUri.toString(), forms);
 
     }
 

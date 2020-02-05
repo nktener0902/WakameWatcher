@@ -5,6 +5,8 @@ import java.util.Map;
 
 public interface HttpSender {
 
-    void post(String uri, Map<String, String> forms) throws IOException;
+    void postImage(String uri, Map<String, String> forms) throws IOException;
+
+    void postText(String uri, Map<String, String> forms) throws IOException;
 
 }
